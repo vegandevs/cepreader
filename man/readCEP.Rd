@@ -91,13 +91,19 @@ readCEP(file, maxdata=10000, positive=TRUE, trace=FALSE, force=FALSE)
   crash when Fortran program tries to read the invisible characters that
   Windows uses at the end of each line.
 
+  This function was included in \pkg{vegan} up to version 2.4-5. It
+  was moved to a package of its own because compiled functions with
+  Fortran I/O can interfere with compiled code written with other
+  languages. This can disturb \pkg{vegan}, other loaded packages and
+  packages that depend on \pkg{vegan}.
+
 }
 
 
 \examples{
 ## Provided that you have the file `dune.spe'
 \dontrun{
-theclassic <- readCEP("dune.spe", force=T)}
+theclassic <- readCEP("dune.spe", force=TRUE)}
 }
 \keyword{ IO }
 \keyword{ file }
