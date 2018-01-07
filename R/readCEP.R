@@ -1,4 +1,4 @@
-`read.cep` <-
+`readCEP` <-
   function (file, maxdata = 10000, positive = TRUE, trace = FALSE,
             force = FALSE)
 {

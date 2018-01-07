@@ -1,13 +1,13 @@
-\name{read.cep}
-\alias{read.cep}
+\name{readCEP}
+\alias{readCEP}
 
 \title{Reads a CEP (Canoco) data file }
 \description{
-  \code{read.cep} reads a file formatted by relaxed strict CEP format
+  \code{readCEP} reads a file formatted by relaxed strict CEP format
   used by \code{Canoco} software, among others.
 }
 \usage{
-read.cep(file, maxdata=10000, positive=TRUE, trace=FALSE, force=FALSE)
+readCEP(file, maxdata=10000, positive=TRUE, trace=FALSE, force=FALSE)
 }
 
 \arguments{
@@ -81,7 +81,7 @@ read.cep(file, maxdata=10000, positive=TRUE, trace=FALSE, force=FALSE)
     \item
     Save your session
     \item
-    Run \code{read.cep()} with switch \code{force=TRUE}
+    Run \code{readCEP()} with switch \code{force=TRUE}
   }
 
   If you transfer files between operating systems or platforms, you
@@ -93,7 +93,7 @@ read.cep(file, maxdata=10000, positive=TRUE, trace=FALSE, force=FALSE)
 
   If you compiled \code{vegan} using \code{gfortran}, the input is
   probably corrupted.  You either should compile \code{vegan} with other
-  FORTRAN compilers or not to use \code{read.cep}.  The problems still
+  FORTRAN compilers or not to use \code{readCEP}.  The problems still
   persist in \code{gfortran 4.01}.
 }
 
@@ -101,7 +101,7 @@ read.cep(file, maxdata=10000, positive=TRUE, trace=FALSE, force=FALSE)
 \examples{
 ## Provided that you have the file `dune.spe'
 \dontrun{
-theclassic <- read.cep("dune.spe", force=T)}
+theclassic <- readCEP("dune.spe", force=T)}
 }
 \keyword{ IO }
 \keyword{ file }
