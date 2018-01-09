@@ -3,6 +3,11 @@
 #include <stdlib.h> /* for NULL */
 #include <R_ext/Rdynload.h>
 
+/* R-exts manual: section Fortran I/O */
+#ifdef _WIN32
+#include <fcntl.h>
+#endif
+
 /* .Fortran calls */
 extern void F77_NAME(cepclose)();
 extern void F77_NAME(cepcond)(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
@@ -25,4 +30,11 @@ void R_init_cepreader(DllInfo *dll)
 {
     R_registerRoutines(dll, NULL, NULL, FortranEntries, NULL);
     R_useDynamicSymbols(dll, FALSE);
+
+/* R-exts manual: section Fortran I/O */
+#ifdef _WIN32
+    /* gfortran I/O initialization sets these to _O_BINARY */
+    setmode(1, _O_TEXT); /* stdout */
+    setmode(2, _O_TEXT); /* stderr */
+#endif
 }
