@@ -1,5 +1,5 @@
-## compiled code
+## compiled code wit registration of Fortran routines
 useDynLib(cepreader, .registration = TRUE)
 
-## register function
+## export function
 export(readCEP)

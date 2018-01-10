@@ -92,8 +92,8 @@ readCEP(file, maxdata=10000, positive=TRUE, trace=FALSE, force=FALSE)
   Windows uses at the end of each line.
 
   This function was included in \pkg{vegan} up to version 2.4-5. It
-  was moved to a package of its own because compiled functions with
-  Fortran I/O can interfere with compiled code written with other
+  was moved to a package of its own because compiled functions using
+  Fortran I/O can interfere with compiled code written in other
   languages. This can disturb \pkg{vegan}, other loaded packages and
   packages that depend on \pkg{vegan}.
 
