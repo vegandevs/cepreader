@@ -11,8 +11,8 @@ C Since the subroutine had to be split, I split it completely:
 C Each file type is read in a separate subroutine, so that I can
 C get rid off static work arrays.
 C
-C Jari Oksanen, Sep 16, 2001
-C
+C     Copyright (c) Jari Oksanen 2001-2018
+C     Licence: MIT (see file in the package)
 C *************************************************************
 
 C
