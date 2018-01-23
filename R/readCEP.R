@@ -5,7 +5,8 @@
   if (!force) {
     stop("R may crash: if you want to try, save your session and use 'force=TRUE'")
   }
-  DLL <- paste0(path.package("cepreader"), "/libs/cepreader", .Platform$dynlib.ext)
+  DLL <- paste0(path.package("cepreader"), "/libs/cepreader",
+                .Platform$r_arch, .Platform$dynlib.ext)
   dyn.load(DLL)
   exitfun <- function() {
       .Fortran("cepclose", PACKAGE = "cepreader")
