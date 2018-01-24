@@ -1,4 +1,26 @@
-C *************************************************************
+C     main
+
+      program cepreader
+
+      character(len=511) cepfile, outfile
+      character(len=80) line
+      
+      call getarg(1, cepfile)
+      call getarg(2, outfile)
+
+      open (unit=1, file=cepfile, status='old')
+      read(1, 101) line
+ 101  format(a80)
+      close(1)
+
+      open (unit=2, file=outfile, status='new')
+      write(2, 101) line
+      close(2)
+
+      end program cepreader
+      
+
+C*************************************************************
 C Based on my standard cepin module. This had to be vandalized,
 C since R cannot interface with character arrays: It can handle only
 C a single character*255 variable. So the routine had to be broken
