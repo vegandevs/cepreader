@@ -58,12 +58,9 @@ c     rectangular output file for R
 c     output
       
       open (unit=2, file=outfile, status='new')
-      write(2, *) kind, nitem, nst
-      write(2, *) fmt
-      write(2, *) nsp, nst, nid
-      write(2, *) (plotid(j), specid(j), abund(j), j=1,20)
-      write(2, *) (spnam(j), j=1,nsp)
-      write(2, *) (stnam(j), j=1,nst)
+
+      call cep2rdata(rdata, nst, nsp, stnam, spnam)
+      
       close(2)
 
       end program cepreader
@@ -291,6 +288,33 @@ c     No names: invent
       return
       end
 
+c     Write opened-up data matrix to a structure that R can read
+
+      subroutine cep2rdata(x, nrow, ncol, rownames, colnames)
+
+      real :: x(nrow, ncol)
+      character(len=8) :: rownames(nrow), colnames(ncol)
+      integer :: nrow, ncol
+
+c     data.frame
+
+      write(2, "('out <- structure(list(', $)")
+      do i = 1,ncol
+         write(2, "('c(', $)")
+         write(2, "(99999(F5.2, :, ', '), $)") (x(i,j), j = 1,nrow)
+         write(2, "(')', $)")
+         if (i .lt. ncol) write(2, "(',')")
+      enddo
+ 101  format(99999("'", a8, "'", :, ", "), $)
+      write(2, "('), .Names = c(')")
+      write(2, 101) (colnames(i), i=1,ncol)
+      write(2, "('), row.names = c(')")
+      write(2, 101) (rownames(i), i=1,nrow)
+      write(2, '("), class = ''data.frame'')")')
+      
+      return
+      end
+      
 c
 c Stupid, but needed
 c
