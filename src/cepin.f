@@ -7,7 +7,7 @@ C     main
       character(len=8), allocatable:: spnam(:), stnam(:)
       integer :: kind, nitem, maxdata, id, nsp, nst,ier
       integer, allocatable :: plotid(:), specid(:), item(:)
-      real, allocatable :: abund(:), work(:)
+      real, allocatable :: abund(:), work(:), rdata(:,:)
       
       call getarg(1, cepfile)
       call getarg(2, outfile)
@@ -36,11 +36,24 @@ c     read data
      x        abund, work, item, nid, ier)
       end select
 
-c     names
+c     get names
 
       allocate(spnam(nsp), stnam(nst))
       call cepnames(spnam, nsp, "spec")
       call cepnames(stnam, nst, "site")
+
+c     rectangular output file for R
+
+      allocate(rdata(nst, nsp))
+      do i=1,nsp
+         do j=1,nst
+            rdata(i,j) = 0.0
+         enddo
+      enddo
+
+      do i=1,nid
+         rdata(plotid(i), specid(i)) = abund(i)
+      enddo
       
 c     output
       
