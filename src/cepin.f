@@ -4,6 +4,7 @@ C     main
 
       character(len=512) :: cepfile, outfile
       character(len=80) :: line, fmt, fmaxdata
+      character(len=8), allocatable:: spnam(:), stnam(:)
       integer :: kind, nitem, maxdata, id, nsp, nst,ier
       integer, allocatable :: plotid(:), specid(:), item(:)
       real, allocatable :: abund(:), work(:)
@@ -34,6 +35,12 @@ c     read data
          call cepcond(fmt, nitem, maxdat, nsp, nst, plotid, specid,
      x        abund, work, item, nid, ier)
       end select
+
+c     names
+
+      allocate(spnam(nsp), stnam(nst))
+      call cepnames(spnam, nsp, "spec")
+      call cepnames(stnam, nst, "site")
       
 c     output
       
@@ -42,6 +49,8 @@ c     output
       write(2, *) fmt
       write(2, *) nsp, nst, nid
       write(2, *) (plotid(j), specid(j), abund(j), j=1,20)
+      write(2, *) (spnam(j), j=1,nsp)
+      write(2, *) (stnam(j), j=1,nst)
       close(2)
 
       end program cepreader
@@ -256,11 +265,16 @@ c     Names cannot be read in one time, but they must be
 c     handled line by line.
 c
 
-      subroutine cepnames(entname)
-      character (len=255) entname
-      read (1,1100, end=666) entname  
- 1100 format (a80)
+      subroutine cepnames(names, nn, rootn)
+      character (len=8) :: names(nn)
+      character (len=4) :: rootn
+      read (1, '(10a8)', end=666) (names(i), i=1,nn)
+      return
+c     No names: invent
  666  continue
+      do i=1,nn
+         write(names(i), '(a4,i4)') rootn,i
+      enddo
       return
       end
 
