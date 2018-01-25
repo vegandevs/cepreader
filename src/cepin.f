@@ -2,19 +2,46 @@ C     main
 
       program cepreader
 
-      character(len=511) cepfile, outfile
-      character(len=80) line
+      character(len=512) :: cepfile, outfile
+      character(len=80) :: line, fmt, fmaxdata
+      integer :: kind, nitem, maxdata, id, nsp, nst,ier
+      integer, allocatable :: plotid(:), specid(:), item(:)
+      real, allocatable :: abund(:), work(:)
       
       call getarg(1, cepfile)
       call getarg(2, outfile)
+ 
+      maxdat = 10000
 
+C     open CEP file
+      
       open (unit=1, file=cepfile, status='old')
-      read(1, 101) line
- 101  format(a80)
-      close(1)
 
+c     Read 2 or 3 header cards
+
+      call cephead(cepfile, kind, nitem, nst, fmt)
+
+c     read data
+
+      allocate(plotid(maxdat), specid(maxdat), abund(maxdat))
+      allocate(work(nitem), item(nitem))
+
+      select case(kind)
+      case (1)
+      case (2)
+         call exit(-1)
+      case (3)
+         call cepcond(fmt, nitem, maxdat, nsp, nst, plotid, specid,
+     x        abund, work, item, nid, ier)
+      end select
+      
+c     output
+      
       open (unit=2, file=outfile, status='new')
-      write(2, 101) line
+      write(2, *) kind, nitem, nst
+      write(2, *) fmt
+      write(2, *) nsp, nst, nid
+      write(2, *) (plotid(j), specid(j), abund(j), j=1,20)
       close(2)
 
       end program cepreader
@@ -47,7 +74,8 @@ C
 
       subroutine cephead(cepfile, kind, nitem, nst, fmt)
 
-      character (len=255) cepfile, fmt
+      character (len=255) cepfile
+      character(len=80) fmt
       integer kind, nitem, nst
 
       character (len=80) title
@@ -56,7 +84,6 @@ C
       ni=0
       nbrac=0
 
-      open (unit=1,file=cepfile,status='old')
       read (1,101) title
  101  format (a80)
       read (1,101) fmt
@@ -99,10 +126,10 @@ c
       character (len=255) fmt
       integer nitem, nsp, nst
       integer idplot(maxdat), idspec(maxdat)
-      double precision abund(maxdat)
+      real abund(maxdat)
  
       integer id, ii, j, ier
-      double precision work(nitem)
+      real work(nitem)
 
       nsp = nitem
       nst = 0
@@ -139,16 +166,16 @@ C ALL entries are stored in condensed format (except zeros)
 C
 
       subroutine cepcond(fmt, nitem, maxdat, nsp, nst, idplot, idspec, 
-     X abund, work, item, ier)
+     X abund, work, item, id, ier)
 
-      character (len=255) fmt
+      character (len=80) fmt
       integer nitem, nsp, nst
       integer idplot(maxdat), idspec(maxdat)
-      double precision abund(maxdat)
+      real abund(maxdat)
  
       integer id, ii, j, ier
       integer item(nitem)
-      double precision work(nitem)
+      real work(nitem)
 
       nsp = 0
       nst = 0
