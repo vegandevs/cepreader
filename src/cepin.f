@@ -17,6 +17,8 @@ C     Licence: MIT
       integer :: kind, nitem, maxdat, id, nsp, nst
       integer, allocatable :: plotid(:), specid(:), item(:)
       real, allocatable :: abund(:), work(:), rdata(:,:)
+
+c     getarg is GNU extension
       
       call getarg(1, cepfile)
       call getarg(2, outfile)
@@ -38,11 +40,17 @@ c     read data
 
       select case(kind)
       case (1)
+         call cepfree(nitem, maxdat, nsp, nst, plotid, specid,
+     x        abund, work, nid)
       case (2)
-         call exit(2)
+         call cepopen(fmt, nitem, maxdat, nsp, nst, plotid, specid,
+     x        abund, work, nid)
       case (3)
          call cepcond(fmt, nitem, maxdat, nsp, nst, plotid, specid,
      x        abund, work, item, nid)
+c     exit is GNU extension
+      case default
+         call exit(2)
       end select
 
 c     get names
@@ -134,14 +142,14 @@ c     1990s!) used to read data into condensed format that I used in my
 c     software. This could be redesigned, but I leave it to others...
 
       subroutine cepopen(fmt, nitem, maxdat, nsp, nst, idplot, idspec, 
-     X abund, work)
+     X abund, work, id)
 
       character (len=80) fmt
       integer nitem, nsp, nst
       integer idplot(maxdat), idspec(maxdat)
       real abund(maxdat)
  
-      integer id, ii, j, ier
+      integer id, ii, j
       real work(nitem)
 
       nsp = nitem
@@ -168,9 +176,7 @@ c     software. This could be redesigned, but I leave it to others...
       
       end
 
-
-C     Condensed CEP format (kind=3).  All entries are stored in
-C     condensed format (except zeros)
+c     All entries are stored in condensed format (except zeros)
 
       subroutine cepcond(fmt, nitem, maxdat, nsp, nst, idplot, idspec, 
      X abund, work, item, id)
@@ -216,7 +222,7 @@ c     zeros. We get it in sparse form but later change back to open: see
 c     comment for cepopen()
 
       subroutine cepfree(nitem, maxdat, nsp, nst, idplot, idspec, 
-     X abund, work)
+     X abund, work, id)
 
       integer nitem, nsp, nst, maxdat
       integer idplot(maxdat), idspec(maxdat)
@@ -275,7 +281,7 @@ c     data.frame
       write(2, "('out <- structure(list(', $)")
       do j= 1,ncol
          write(2, "('c(', $)")
-         write(2, "(99999(F5.2, :, ', '), $)") (x(i,j), i = 1,nrow)
+         write(2, "(99999(g11.6, :, ', '), $)") (x(i,j), i = 1,nrow)
          write(2, "(')', $)")
          if (j .lt. ncol) write(2, "(',')")
       enddo
