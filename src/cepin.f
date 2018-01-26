@@ -1,4 +1,12 @@
-C     main
+C     Program to read in Cornell Ecology Program (CEP) or Canoco
+C     files. The subroutines of this file were originally used in DLL in
+C     the vegan library for R, but CRAN no longer accepts Fortran I/O in
+C     DLL. This function provides an independent binary that can be
+C     called from R and writes the CEP file in a format that can be read
+C     into R.
+C
+C     Copyright (c) 2001--2018 Jari Oksanen
+C     Licence: MIT
 
       program cepreader
 
@@ -65,32 +73,15 @@ c     output
       close(2)
 
       end program cepreader
-      
 
 C*************************************************************
-C Based on my standard cepin module. This had to be vandalized,
-C since R cannot interface with character arrays: It can handle only
-C a single character*255 variable. So the routine had to be broken
-C into pieces, and assume that the file opened  is still there when 
-C called repeatedly. 
-C
-C I feel really bad for this.
-C
-C Since the subroutine had to be split, I split it completely:
-C Each file type is read in a separate subroutine, so that I can
-C get rid off static work arrays.
-C
-C     Copyright (c) Jari Oksanen 2001-2018
-C     Licence: MIT (see file in the package)
+C     Based on my standard cepin module to read in data.
 C *************************************************************
 
-C
-C Read the file header.
-C The file is left open (that's magic...), and everything
-C needed is the format, the `kind' of the file, the number
-C of items in a record (`nitem'), and number of records for 
-C `kind=1'. The `kind' is interpreted from number of I's in `fmt'. 
-C
+C     Read the file header.  Everything needed is the format 'fmt', the
+C     'kind' of the file, the number of items in a record ('nitem'), and
+C     number of records for 'kind=1'. The `kind' is interpreted from the
+C     number of I's in 'fmt'.
 
       subroutine cephead(cepfile, kind, nitem, nst, fmt)
 
@@ -134,16 +125,18 @@ C
       enddo
       return
       end
-      
-c
-c Open CEP format (kind=2).
-c Zeros are skipped, negative entries stored
-c Stop when negative site (row) index found.
-c
-      subroutine cepopen(fmt, nitem, maxdat, nsp, nst, idplot, idspec, 
-     X abund, work, ier)
 
-      character (len=255) fmt
+c     Open CEP format (kind=2).  Zeros are skipped, negative entries
+c     stored. Stop when negative site (row) index found. It is a bit odd
+c     to read open data into condensed format and then transform it back
+c     to open data. This happens because the function was originally (in
+c     1990s!) used to read data into condensed format that I used in my
+c     software. This could be redesigned, but I leave it to others...
+
+      subroutine cepopen(fmt, nitem, maxdat, nsp, nst, idplot, idspec, 
+     X abund, work)
+
+      character (len=80) fmt
       integer nitem, nsp, nst
       integer idplot(maxdat), idspec(maxdat)
       real abund(maxdat)
@@ -154,13 +147,9 @@ c
       nsp = nitem
       nst = 0
       id = 0
-      ier = 99
       
  20   read (1, fmt) ii, (work(j),j=1,nitem)  
-      if (ii .le. 0) then
-         ier = 0
-         return
-      endif
+      if (ii .le. 0) return
       if (ii .gt. nst) then
          nst=ii
       end if
@@ -168,8 +157,7 @@ c
          if (work(j) .ne. 0) then
             id = id+1
             if (id .gt. maxdat) then
-               ier = 1
-               return
+               call exit(1)
             endif
             idplot(id) = ii
             idspec(id) = j
@@ -180,10 +168,9 @@ c
       
       end
 
-C
-C Condensed CEP format (kind=3)
-C ALL entries are stored in condensed format (except zeros)
-C
+
+C     Condensed CEP format (kind=3).  All entries are stored in
+C     condensed format (except zeros)
 
       subroutine cepcond(fmt, nitem, maxdat, nsp, nst, idplot, idspec, 
      X abund, work, item, id)
@@ -193,7 +180,7 @@ C
       integer idplot(maxdat), idspec(maxdat)
       real abund(maxdat)
  
-      integer id, ii, j, ier
+      integer id, ii, j
       integer item(nitem)
       real work(nitem)
 
@@ -203,7 +190,6 @@ C
 
  40   read (1,fmt) ii,(item(j),work(j),j=1,nitem) 
       if (ii .le. 0) then
-         ier = 0
          return
       endif
       if (ii .gt. nst) then
@@ -225,25 +211,23 @@ C
 
       end
 
-c      
-c Free CEP format (kind=1) -- or error!
-c Get everything but zeros.
-c
+c     Free CEP format (kind=1) -- or error!  Get everything but
+c     zeros. We get it in sparse form but later change back to open: see
+c     comment for cepopen()
 
       subroutine cepfree(nitem, maxdat, nsp, nst, idplot, idspec, 
-     X abund, work, ier)
+     X abund, work)
 
       integer nitem, nsp, nst, maxdat
       integer idplot(maxdat), idspec(maxdat)
-      double precision abund(maxdat)
+      real abund(maxdat)
  
-      integer id, j, i, ier
-      double precision work(nitem)
+      integer id, j, i
+      real work(nitem)
 
       nsp = nitem
       nst = nst
       id = 0
-      ier = 99
 
       do i=1,nst
          read(1,*) (work(j),j=1,nsp)
@@ -251,8 +235,7 @@ c
             if(work(j)  .ne. 0) then
                id=id+1
                if (id .gt. maxdat) then
-                  ier = 1
-                  return
+                  call exit(1)
                endif
                abund(id) = work(j)
                idspec(id) = j
@@ -260,17 +243,11 @@ c
             endif
          enddo
       enddo
-      
-      ier = 0
 
       return
       end
 
-c
-c     R can handle only a single character*255: 
-c     Names cannot be read in one time, but they must be
-c     handled line by line.
-c
+c     Get row and column names after data cards.
 
       subroutine cepnames(names, nn, rootn)
       character (len=8) :: names(nn)
@@ -311,13 +288,3 @@ c     data.frame
       
       return
       end
-      
-c
-c Stupid, but needed
-c
-
-      subroutine cepclose()
-      close(1)
-      return
-      end
-
