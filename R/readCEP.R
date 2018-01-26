@@ -7,7 +7,13 @@
                                       "cepread")
     cepfile <- normalizePath(file)
     outfile <- tempfile()
-    system2(cepread, args = c(cepfile, outfile))
+    retval <- system2(cepread, args = c(cepfile, outfile))
+    if (retval) {
+        switch(retval,
+               stop("maxdata too low"),
+               stop("unknown data type"),
+               stop("unknown error"))
+    }
     ## source result: will return results in 'out'
     source(outfile)
     unlink(outfile)

@@ -30,7 +30,7 @@ c     read data
       select case(kind)
       case (1)
       case (2)
-         call exit(-1)
+         call exit(2)
       case (3)
          call cepcond(fmt, nitem, maxdat, nsp, nst, plotid, specid,
      x        abund, work, item, nid, ier)
@@ -212,10 +212,7 @@ C
       do j = 1,nitem
          if (item(j) .gt. 0 .and. work(j) .ne. 0.0) then
             id = id+1
-            if (id .gt. maxdat) then
-               ier = 1
-               return
-            endif
+            if (id .gt. maxdat) call exit(1)
             idplot(id) = ii
             if (item(j) .gt. nsp) then
                nsp = item(j)
