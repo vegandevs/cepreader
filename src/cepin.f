@@ -5,7 +5,7 @@ C     main
       character(len=512) :: cepfile, outfile
       character(len=80) :: line, fmt, fmaxdata
       character(len=8), allocatable:: spnam(:), stnam(:)
-      integer :: kind, nitem, maxdata, id, nsp, nst,ier
+      integer :: kind, nitem, maxdata, id, nsp, nst
       integer, allocatable :: plotid(:), specid(:), item(:)
       real, allocatable :: abund(:), work(:), rdata(:,:)
       
@@ -33,7 +33,7 @@ c     read data
          call exit(2)
       case (3)
          call cepcond(fmt, nitem, maxdat, nsp, nst, plotid, specid,
-     x        abund, work, item, nid, ier)
+     x        abund, work, item, nid)
       end select
 
 c     get names
@@ -185,7 +185,7 @@ C ALL entries are stored in condensed format (except zeros)
 C
 
       subroutine cepcond(fmt, nitem, maxdat, nsp, nst, idplot, idspec, 
-     X abund, work, item, id, ier)
+     X abund, work, item, id)
 
       character (len=80) fmt
       integer nitem, nsp, nst
@@ -199,7 +199,6 @@ C
       nsp = 0
       nst = 0
       id = 0
-      ier = 99
 
  40   read (1,fmt) ii,(item(j),work(j),j=1,nitem) 
       if (ii .le. 0) then

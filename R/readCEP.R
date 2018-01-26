@@ -5,14 +5,15 @@
     cepread <- file.path(path.package("cepreader"),
                                       paste0("bin", .Platform$r_arch),
                                       "cepread")
-    cepfile <- normalizePath(file)
+    cepfile <- normalizePath(file, mustWork = TRUE)
     outfile <- tempfile()
     retval <- system2(cepread, args = c(cepfile, outfile))
     if (retval) {
-        switch(retval,
-               stop("maxdata too low"),
-               stop("unknown data type"),
-               stop("unknown error"))
+        switch(as.character(retval),
+               "1" = stop("too many non-zero entries: increase 'maxdata' from ",
+                    maxdata),
+               "2" = stop("unknown CEP file type"),
+               stop("error number ", retval))
     }
     ## source result: will return results in 'out'
     source(outfile)
