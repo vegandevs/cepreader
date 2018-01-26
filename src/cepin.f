@@ -45,8 +45,8 @@ c     get names
 c     rectangular output file for R
 
       allocate(rdata(nst, nsp))
-      do i=1,nsp
-         do j=1,nst
+      do j=1,nsp
+         do i=1,nst
             rdata(i,j) = 0.0
          enddo
       enddo
