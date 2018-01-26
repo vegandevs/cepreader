@@ -5,16 +5,17 @@ C     main
       character(len=512) :: cepfile, outfile
       character(len=80) :: line, fmt, fmaxdata
       character(len=8), allocatable:: spnam(:), stnam(:)
-      integer :: kind, nitem, maxdata, id, nsp, nst
+      character(len=8) :: arg3
+      integer :: kind, nitem, maxdat, id, nsp, nst
       integer, allocatable :: plotid(:), specid(:), item(:)
       real, allocatable :: abund(:), work(:), rdata(:,:)
       
       call getarg(1, cepfile)
       call getarg(2, outfile)
- 
-      maxdat = 10000
+      call getarg(3, arg3)
+      read(arg3, '(i8)') maxdat
 
-C     open CEP file
+c     open CEP file
       
       open (unit=1, file=cepfile, status='old')
 
