@@ -299,11 +299,11 @@ c     Write opened-up data matrix to a structure that R can read
 c     data.frame
 
       write(2, "('out <- structure(list(', $)")
-      do i = 1,ncol
+      do j= 1,ncol
          write(2, "('c(', $)")
-         write(2, "(99999(F5.2, :, ', '), $)") (x(i,j), j = 1,nrow)
+         write(2, "(99999(F5.2, :, ', '), $)") (x(i,j), i = 1,nrow)
          write(2, "(')', $)")
-         if (i .lt. ncol) write(2, "(',')")
+         if (j .lt. ncol) write(2, "(',')")
       enddo
  101  format(99999("'", a8, "'", :, ", "), $)
       write(2, "('), .Names = c(')")
