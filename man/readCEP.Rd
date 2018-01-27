@@ -7,34 +7,36 @@
   used by \code{Canoco} software, among others.
 }
 \usage{
-readCEP(file, maxdata=10000, positive=TRUE, trace=FALSE, force=FALSE)
+readCEP(file, maxdata=10000, positive=TRUE)
 }
 
 \arguments{
   \item{file}{File name (character variable). }
   \item{maxdata}{Maximum number of non-zero entries. }
   \item{positive}{Read only positive data entries (normal in community data).}
-  \item{trace}{Work verbosely.}
-  \item{force}{Run function, even if \R refuses first.}
+
 }
 \details{
+
   Cornell Ecology Programs (CEP) introduced several data formats
-  designed for punched cards.  One of these was the \sQuote{condensed strict}
-  format which was adopted by popular software \code{DECORANA} and
-  \code{TWINSPAN}. Later, Cajo ter Braak (1984) wrote \code{Canoco}
-  based on \code{DECORANA}, where he adopted the format, but relaxed it
-  somewhat (that's why I call it \dQuote{relaxed strict} format). Further, he
-  introduced a more ordinary \dQuote{free} format, and allowed the use of
-  classical Fortran style \dQuote{open} format with fixed field widths.  This
-  function should be able to deal with all these \code{Canoco} formats,
-  whereas it cannot read many of the traditional CEP alternatives.
+  designed for punched cards.  One of these was the \sQuote{condensed
+  strict} format which was adopted by popular software \code{DECORANA}
+  and \code{TWINSPAN}. Later, Cajo ter Braak (1984) wrote
+  \code{Canoco} based on \code{DECORANA}, where he adopted the format,
+  but relaxed it somewhat (that's why I call it \dQuote{relaxed
+  strict} format). Further, he introduced a more ordinary
+  \dQuote{free} format, and allowed the use of classical Fortran style
+  \dQuote{open} format with fixed field widths.  This function should
+  be able to deal with all these \code{Canoco} formats, whereas it
+  cannot read many of the traditional CEP alternatives.
 
   All variants of CEP formats have:
   \itemize{
   
     \item Two or three title cards, most importantly specifying the
       format (or word \code{FREE}) and the number of items per record
-      (number of species and sites for \code{FREE} format).
+      (number of species and sites for \dQuote{open} and \dQuote{free}
+      formats).
 
     \item Data in one of three accepted formats:
 
@@ -79,17 +81,9 @@ readCEP(file, maxdata=10000, positive=TRUE, trace=FALSE, force=FALSE)
 \author{ Jari Oksanen }
 
 \note{
-  The function relies on smooth linking of Fortran file input in \R
-  session.  This is not guaranteed to work, and therefore the function
-  may not work in \emph{your} system, but it
-  can crash the \R session.  Therefore the default is that the function
-  does not run.  If you still want to try:
-  \enumerate{
-    \item
-    Save your session
-    \item
-    Run \code{readCEP()} with switch \code{force=TRUE}
-  }
+
+  The function calls an external Fortran program to write the data in
+  the file in a format that can be read into \R.
 
   If you transfer files between operating systems or platforms, you
   should always check that your file is formatted to your current
