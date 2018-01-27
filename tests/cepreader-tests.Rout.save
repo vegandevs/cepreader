@@ -1,0 +1,96 @@
+
+R version 3.4.3 (2017-11-30) -- "Kite-Eating Tree"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> ## test that we can read data
+> 
+> require(cepreader)
+Loading required package: cepreader
+> cep <- file.path(path.package("cepreader"), "testdata", "dune.spe")
+> readCEP(cep)
+         Achmil Agrsto Airpra Alogen Antodo Belper Brohor Chealb Cirarv Elepal
+X1            1      0      0      0      0      0      0      0      0      0
+X2            3      0      0      2      0      3      4      0      0      0
+X3            0      4      0      7      0      2      0      0      0      0
+X4            0      8      0      2      0      2      3      0      2      0
+X5            2      0      0      0      4      2      2      0      0      0
+X6            2      0      0      0      3      0      0      0      0      0
+X7            2      0      0      0      2      0      2      0      0      0
+X8            0      4      0      5      0      0      0      0      0      4
+X9            0      3      0      3      0      0      0      0      0      0
+X10           4      0      0      0      4      2      4      0      0      0
+X11           0      0      0      0      0      0      0      0      0      0
+X12           0      4      0      8      0      0      0      0      0      0
+X13           0      5      0      5      0      0      0      1      0      0
+X14           0      4      0      0      0      0      0      0      0      4
+X15           0      4      0      0      0      0      0      0      0      5
+X16           0      7      0      4      0      0      0      0      0      8
+X17           2      0      2      0      4      0      0      0      0      0
+EXTRASAM      0      0      0      0      0      5      0      0      0      0
+PAS17         2      0      2      0      4      0      0      0      0      0
+X18           0      0      0      0      0      2      0      0      0      0
+X19           0      0      3      0      4      0      0      0      0      0
+X20           0      5      0      0      0      0      0      0      0      4
+         Elyrep Empnig Hyprad Junart Junbuf Leoaut Lolper Plalan Poapra Poatri
+X1            4      0      0      0      0      0      7      0      4      2
+X2            4      0      0      0      0      5      5      0      4      7
+X3            4      0      0      0      0      2      6      0      5      6
+X4            4      0      0      0      0      2      5      0      4      5
+X5            4      0      0      0      0      3      2      5      2      6
+X6            0      0      0      0      0      3      6      5      3      4
+X7            0      0      0      0      2      3      6      5      4      5
+X8            0      0      0      4      0      3      4      0      4      4
+X9            6      0      0      4      4      2      2      0      4      5
+X10           0      0      0      0      0      3      6      3      4      4
+X11           0      0      2      0      0      5      7      3      4      0
+X12           0      0      0      0      4      2      0      0      0      4
+X13           0      0      0      0      3      2      0      0      2      9
+X14           0      0      0      0      0      2      0      0      0      0
+X15           0      0      0      3      0      2      0      0      0      0
+X16           0      0      0      3      0      0      0      0      0      2
+X17           0      0      2      0      0      2      0      2      1      0
+EXTRASAM      0      0      0      0      0      0      0      0      4      0
+PAS17         0      0      2      0      0      2      0      2      1      0
+X18           0      0      0      0      0      5      2      3      3      0
+X19           0      2      5      0      0      6      0      0      0      0
+X20           0      0      0      4      0      2      0      0      0      0
+         Potpal Ranfla Rumace Sagpro Salrep Tripra Trirep Viclat Brarut Calcus
+X1            0      0      0      0      0      0      0      0      0      0
+X2            0      0      0      0      0      0      5      0      0      0
+X3            0      0      0      0      0      0      2      0      2      0
+X4            0      0      0      5      0      0      1      0      2      0
+X5            0      0      5      0      0      2      2      0      2      0
+X6            0      0      6      0      0      5      5      0      6      0
+X7            0      0      3      0      0      2      2      0      2      0
+X8            0      2      0      2      0      0      2      0      2      0
+X9            0      0      2      2      0      0      3      0      2      0
+X10           0      0      0      0      0      0      6      1      2      0
+X11           0      0      0      2      0      0      3      2      4      0
+X12           0      0      2      4      0      0      3      0      4      0
+X13           0      2      0      2      0      0      2      0      0      0
+X14           2      2      0      0      0      0      6      0      0      4
+X15           2      2      0      0      0      0      1      0      4      0
+X16           0      2      0      0      0      0      0      0      4      3
+X17           0      0      0      0      0      0      0      0      0      0
+EXTRASAM      0      0      3      0      0      0      0      0      0      0
+PAS17         0      0      0      0      0      0      0      0      0      0
+X18           0      0      0      0      3      0      2      1      6      0
+X19           0      0      0      3      3      0      2      0      3      0
+X20           0      4      0      0      5      0      0      0      4      3
+> 
+> proc.time()
+   user  system elapsed 
+  0.213   0.042   0.241 
