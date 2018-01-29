@@ -3,26 +3,18 @@ cache: packages
 
 r:
   - release
-  - devel
+#  - devel
 
 sudo: false
 
-addons:
-  apt:
-    packages:
-      - qpdf
-
- r_packages:
-   - vegan
+r_packages:
+  - vegan
 
 r_github_packages:
   - jimhester/covr
 
 after_success:
   - Rscript -e 'covr::codecov()'
-
-#before_install:
-#  - tlmgr install sidecap
 
 warnings_are_errors: false
 
