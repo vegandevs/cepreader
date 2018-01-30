@@ -1,6 +1,6 @@
 all: cepread
 F77=`"${R_HOME}/bin/R" CMD config F77`
 FLIBS=`"${R_HOME}/bin/R" CMD config FLIBS`
-SAFE_FFLAGS=`"${R_HOME}/bin/R" CMD config SAFE_FFLAGS`
+FFLAGS=`"${R_HOME}/bin/R" CMD config FFLAGS`
 cepread: cepin.f
-	$(F77) $(FLIBS) $(SAFE_FFLAGS) cepin.f -o cepread
+	$(F77) $(FLIBS) $(FFLAGS) cepin.f -o cepread
