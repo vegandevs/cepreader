@@ -268,6 +268,26 @@ c     No names: invent
       return
       end
 
+c     Names source()d into R cannot have characters that terminate
+c     strings ('") or escape terminators (\)
+
+      subroutine sanitname(name)
+
+      character (len=8) :: name
+c     baddies are escape sequences for \ ' "
+      integer ibad
+      character (len=3) ::  baddies
+      baddies = '\"'''
+
+      ibad = scan(name, baddies)
+      do while(ibad .gt. 0)
+         name(ibad:ibad) = ' '
+         ibad = scan(name, baddies)
+      enddo
+
+      return
+      end
+
 c     Write opened-up data matrix to a structure that R can read
 
       subroutine cep2rdata(x, nrow, ncol, rownames, colnames)
@@ -285,6 +305,16 @@ c     data.frame
          write(2, "(')', $)")
          if (j .lt. ncol) write(2, "(',')")
       enddo
+
+c     Sanitize names so that they can be source()d into R
+
+      do i=1,ncol
+         call sanitname(colnames(i))
+      enddo
+      do i=1,nrow
+         call sanitname(rownames(i))
+      enddo
+
  101  format(99999("'", a8, "'", :, ", "), $)
       write(2, "('), .Names = c(')")
       write(2, 101) (colnames(i), i=1,ncol)
