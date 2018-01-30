@@ -1,6 +1,3 @@
-all: cepread
-F77=`"${R_HOME}/bin/R" CMD config F77`
-FLIBS=`"${R_HOME}/bin/R" CMD config FLIBS`
-FFLAGS=`"${R_HOME}/bin/R" CMD config FFLAGS`
+include ${R_HOME}/etc/i386/Makeconf
 cepread: cepin.f
 	$(F77) $(FLIBS) $(FFLAGS) cepin.f -o cepread

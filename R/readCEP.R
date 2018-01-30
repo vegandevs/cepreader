@@ -3,8 +3,7 @@
 {
     ## launch external binary to write R input data
     cepread <- file.path(path.package("cepreader"),
-                                      "bin", .Platform$r_arch,
-                                      "cepread")
+                                      "bin", "cepread")
     cepfile <- normalizePath(file, mustWork = TRUE)
     outfile <- tempfile()
     retval <- system2(cepread, args = c(cepfile, outfile, maxdata))
