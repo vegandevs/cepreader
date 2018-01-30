@@ -11,6 +11,5 @@ Authors@R: c(person("Jari", "Oksanen", role=c("aut","cre"),
 Description: Read Condensed Cornell Ecology Program ('CEP') and legacy
     'CANOCO' files into R data frames.
 License: MIT + file LICENCE
-Biarch: yes
 BugReports: https://github.com/vegandevs/cepreader/issues
 URL: https://cran.r-project.org/, https://github.com/vegandevs/cepreader/
