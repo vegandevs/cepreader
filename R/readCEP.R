@@ -3,7 +3,9 @@
 {
     ## launch external binary to write R input data
     cepread <- file.path(path.package("cepreader"),
-                                      "bin", "cepread")
+                         "bin", "cepread")
+    if (!file.exists(cepread))
+        stop("internal error: program to read CEP files missing")
     cepfile <- normalizePath(file, mustWork = TRUE)
     outfile <- tempfile()
     retval <- system2(cepread, args = c(cepfile, outfile, maxdata))
