@@ -4,7 +4,6 @@
 #### Build status
 [![Build Status](https://travis-ci.org/vegandevs/cepreader.svg?branch=master)](https://travis-ci.org/vegandevs/cepreader) 
 [![Build status](https://ci.appveyor.com/api/projects/status/ydo7gbvuckc916kq/branch/master?svg=true)](https://ci.appveyor.com/project/jarioksa/cepreader/branch/master)
-[![codecov.io](https://codecov.io/github/vegandevs/cepreader/coverage.svg?branch=master)](https://codecov.io/github/vegandevs/cepreader?branch=master)
 
 # What is cepreader?
 
