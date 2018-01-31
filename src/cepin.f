@@ -53,6 +53,8 @@ c     exit is GNU extension
          call exit(2)
       end select
 
+      deallocate(item, work)
+
 c     get names
 
       allocate(spnam(nsp), stnam(nst))
@@ -71,6 +73,8 @@ c     rectangular output file for R
       do i=1,nid
          rdata(plotid(i), specid(i)) = abund(i)
       enddo
+
+      deallocate(plotid, specid, abund)
       
 c     output
       
@@ -79,6 +83,8 @@ c     output
       call cep2rdata(rdata, nst, nsp, stnam, spnam)
       
       close(2)
+
+      deallocate(rdata, stnam, spnam)
 
       end program cepreader
 
