@@ -179,7 +179,8 @@ c     software. This could be redesigned, but I leave it to others...
          endif
       end do
       goto 20
-      
+
+      return
       end
 
 c     All entries are stored in condensed format (except zeros)
@@ -221,6 +222,7 @@ c     All entries are stored in condensed format (except zeros)
       enddo
       goto 40
 
+      return
       end
 
 c     Free CEP format (kind=1) -- or error!  Get everything but
