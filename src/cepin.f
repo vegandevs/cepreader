@@ -309,7 +309,7 @@ c     data.frame
       write(2, "('out <- structure(list(')")
       do j= 1,ncol
          write(2, "('c(')")
-         write(2, "(99999(g12.6, :, ', '))") (x(i,j), i = 1,nrow)
+         write(2, "(99999(g13.7, :, ', '))") (x(i,j), i = 1,nrow)
          write(2, "(')')")
          if (j .lt. ncol) write(2, "(',')")
       enddo
