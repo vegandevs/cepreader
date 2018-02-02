@@ -6,6 +6,7 @@
                                       "bin", "cepread")
     cepfile <- normalizePath(file, mustWork = TRUE)
     outfile <- tempfile()
+    on.exit(unlink(outfile))
     retval <- system2(cepread, args = c(cepfile, outfile, maxdata))
     if (retval) {
         switch(as.character(retval),
@@ -16,7 +17,6 @@
     }
     ## source result: will return results in 'out'
     source(outfile)
-    unlink(outfile)
     ## sanitize dimname
     cnam <- names(out)
     cnam <- gsub(" ", "", cnam)
