@@ -20,7 +20,7 @@ data in flexible forms as defined by a `FORTRAN` format stored in the
 file, and this format is best interpreted using `FORTRAN` code.
 
 #### Released version
-[![CRAN version](http://www.r-pkg.org/badges/version/cepreader)](http://cran.rstudio.com/web/packages/cepreader/index.html) [![](http://cranlogs.r-pkg.org/badges/grand-total/cepreader)](http://cran.rstudio.com/web/packages/cepreader/index.html)
+[![CRAN version](https://www.r-pkg.org/badges/version/cepreader)](https://cran.rstudio.com/web/packages/cepreader/index.html) [![](https://cranlogs.r-pkg.org/badges/grand-total/cepreader)](https://cran.rstudio.com/web/packages/cepreader/index.html)
 
 #### Build status
 [![Build Status](https://travis-ci.org/vegandevs/cepreader.svg?branch=master)](https://travis-ci.org/vegandevs/cepreader)
