@@ -11,10 +11,10 @@ C     Licence: MIT
       program cepreader
 
       character(len=512) :: cepfile, outfile
-      character(len=80) :: line, fmt, fmaxdata
+      character(len=80) :: fmt
       character(len=8), allocatable:: spnam(:), stnam(:)
       character(len=8) :: arg3
-      integer :: kind, nitem, maxdat, id, nsp, nst
+      integer :: kind, nitem, maxdat, nsp, nst
       integer, allocatable :: plotid(:), specid(:), item(:)
       real, allocatable :: abund(:), work(:), rdata(:,:)
 
@@ -31,7 +31,7 @@ c     open CEP file
 
 c     Read 2 or 3 header cards
 
-      call cephead(cepfile, kind, nitem, nst, fmt)
+      call cephead(kind, nitem, nst, fmt)
 
 c     read data
 
@@ -97,9 +97,8 @@ C     'kind' of the file, the number of items in a record ('nitem'), and
 C     number of records for 'kind=1'. The `kind' is interpreted from the
 C     number of I's in 'fmt'.
 
-      subroutine cephead(cepfile, kind, nitem, nst, fmt)
+      subroutine cephead(kind, nitem, nst, fmt)
 
-      character (len=255) cepfile
       character(len=80) fmt
       integer kind, nitem, nst
 
