@@ -83,7 +83,10 @@ readCEP(file, maxdata=10000, positive=TRUE)
 \note{
 
   The function calls an external Fortran program to write the data in
-  the file in a format that can be read into \R.
+  the file in a format that can be read into \R. The function launches
+  a separate program to read the data. This can trigger a warning with
+  some security settings, and users may need to give permission for
+  the operation.
 
   If you transfer files between operating systems or platforms, you
   should always check that your file is formatted to your current
@@ -107,7 +110,7 @@ readCEP(file, maxdata=10000, positive=TRUE)
 
 
 \examples{
-## Provided that you have the file `dune.spe'
+## Provided that you have the file 'dune.spe'
 \dontrun{
 theclassic <- readCEP("dune.spe", force=TRUE)}
 }

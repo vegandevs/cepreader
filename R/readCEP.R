@@ -29,7 +29,8 @@
     if (positive) {
         rsum <- rowSums(out)
         csum <- colSums(out)
-        out <- out[rsum > 0, csum > 0, drop = FALSE]
+        if (any(rsum <= 0) || any(csum <= 0))
+            out <- out[rsum > 0, csum > 0, drop = FALSE]
     }
     out
 }
