@@ -108,11 +108,14 @@ readCEP(file, maxdata=10000, positive=TRUE)
 
 }
 
-
 \examples{
-## Provided that you have the file 'dune.spe'
-\dontrun{
-theclassic <- readCEP("dune.spe", force=TRUE)}
+## classic example
+cepfile <- file.path(path.package("cepreader"), "testdata", "dune.spe")
+## peak at the file structure
+head(readLines(cepfile), n=10)
+tail(readLines(cepfile), n=10)
+## as a data frame
+readCEP(cepfile)
 }
 \keyword{ IO }
 \keyword{ file }

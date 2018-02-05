@@ -1,6 +1,6 @@
 Package: cepreader
 Title: Read 'CEP' and Legacy 'CANOCO' Files
-Version: 1.1-1
+Version: 1.1-2
 Date: 2018-02-05
 Authors@R: c(person("Jari", "Oksanen", role=c("aut","cre"),
 	     email="jhoksane@gmail.com"),
