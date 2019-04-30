@@ -1,7 +1,7 @@
 
-R version 3.4.3 (2017-11-30) -- "Kite-Eating Tree"
-Copyright (C) 2017 The R Foundation for Statistical Computing
-Platform: x86_64-apple-darwin15.6.0 (64-bit)
+R Under development (unstable) (2019-04-29 r76439) -- "Unsuffered Consequences"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin18.5.0 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -23,6 +23,7 @@ Type 'q()' to quit R.
 > library('cepreader')
 > 
 > base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
 > cleanEx()
 > nameEx("readCEP")
 > ### * readCEP
@@ -38,7 +39,7 @@ Type 'q()' to quit R.
 > 
 > ## classic example
 > cepfile <- file.path(path.package("cepreader"), "testdata", "dune.spe")
-> ## peak at the file structure
+> ## peek at the file structure
 > head(readLines(cepfile), n=10)
  [1] " DUNE MEADOW SPECIES DATA (M. BATTERINK AND G. WIJFFELS, 1983)"
  [2] " (I10,1X,5(I4,F5.0))"                                          
@@ -137,9 +138,10 @@ X20           0      4      0      0      5      0      0      0      4      3
 > 
 > ### * <FOOTER>
 > ###
+> cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.155 0.012 0.186 0.003 0.002 
+Time elapsed:  0.122 0.012 0.144 0.003 0.003 
 > grDevices::dev.off()
 null device 
           1 
