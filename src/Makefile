@@ -1,2 +1,2 @@
 cepread: cepin.f
-	$(F77) $(FLIBS) $(FFLAGS) cepin.f -o cepread
+	$(FC) $(FLIBS) $(FFLAGS) cepin.f -o cepread
