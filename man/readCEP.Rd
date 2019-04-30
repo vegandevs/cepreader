@@ -82,11 +82,11 @@ readCEP(file, maxdata=10000, positive=TRUE)
 
 \note{
 
-  The function calls an external Fortran program to write the data in
-  the file in a format that can be read into \R. The function launches
-  a separate program to read the data. This can trigger a warning with
-  some security settings, and users may need to give permission for
-  the operation.
+  The function calls an external Fortran program to manipulate data so
+  that they can be read into \R. The function launches a separate
+  program to read the data. This can trigger a warning with some
+  security settings, and users may need to give permission for the
+  operation.
 
   If you transfer files between operating systems or platforms, you
   should always check that your file is formatted to your current
@@ -111,7 +111,7 @@ readCEP(file, maxdata=10000, positive=TRUE)
 \examples{
 ## classic example
 cepfile <- file.path(path.package("cepreader"), "testdata", "dune.spe")
-## peak at the file structure
+## peek at the file structure
 head(readLines(cepfile), n=10)
 tail(readLines(cepfile), n=10)
 ## as a data frame

@@ -6,4 +6,5 @@
 
 ## ignore backup files
 *~
+.DS_Store
 
