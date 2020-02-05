@@ -353,7 +353,7 @@ c     Matrix::sparseMatrix in R
       write(2, "('j = c(')")
       write(2, 101) (idspec(i), i = 1,id)
       write(2, "('),')")
-      write(2, "('i = c(')")
+      write(2, "('x = c(')")
       write(2, 102) (abund(i), i = 1,id)
       write(2, "('),')")
       write(2, "('inames = c(')")
