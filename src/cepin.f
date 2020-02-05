@@ -331,3 +331,51 @@ c     Sanitize names so that they can be source()d into R
       
       return
       end
+
+c     Write data in sparse matrix triplet form to a temporary file that
+c     can be source()d to R and saved there as a sparseMatrix
+
+      subroutine hill2dgT(idplot, idspec, abund, rownames, colnames,
+     .     id, nrow, ncol)
+
+      integer :: id, nrow, ncol
+      integer :: idplot(id), ispec(id)
+      real :: abund(id)
+      character(len=8) :: rownames(nrow), colnames(ncol)
+
+c     Sanitize names so that they can source()d into R
+
+      do i=1,ncol
+         call sanitname(colnames(i))
+      enddo
+      do i=1,nrow
+         call sanitname(rownames(i))
+      enddo
+
+c     Write row and column indices and corresponding abundance data and
+c     dimnames in a list that can be used to build a
+c     Matrix::sparseMatrix in R
+
+ 101  format(99999(i6, :, ","))
+ 102  format(99999(g13.7, :, ","))
+ 103  format(99999("'", a8, "'", :, ", "))
+
+      write(2, "('out <- list(')")
+      write(2, "('i = c(')")
+      write(2, 101) (idplot(i), i = 1,id)
+      write(2, "('),')")
+      write(2, "('j = c(')")
+      write(2, 101) (idspec(i), i = 1,id)
+      write(2, "('),')")
+      write(2, "('i = c(')")
+      write(2, 102) (abund(i), i = 1,id)
+      write(2, "('),')")
+      write(2, "('inames = c(')")
+      write(2, 103) (rownames(i), i=1,nrow)
+      write(2, "('),')")
+      write(2, "('jnames = c(')")
+      write(2, 103) (colnames(i), i=1,ncol)
+      write(2, "('))')")
+
+      return
+      end
