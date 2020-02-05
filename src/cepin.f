@@ -16,7 +16,7 @@ C     Licence: MIT
       character(len=8) :: arg3
       integer :: kind, nitem, maxdat, nsp, nst
       integer, allocatable :: plotid(:), specid(:), item(:)
-      real, allocatable :: abund(:), work(:), rdata(:,:)
+      real, allocatable :: abund(:), work(:)
 
 c     getarg is GNU extension
       
@@ -61,30 +61,16 @@ c     get names
       call cepnames(spnam, nsp, "spec")
       call cepnames(stnam, nst, "site")
 
-c     rectangular output file for R
+c     Sparse triplet format for R Matrix::sparseMatrix
 
-      allocate(rdata(nst, nsp))
-      do j=1,nsp
-         do i=1,nst
-            rdata(i,j) = 0.0
-         enddo
-      enddo
-
-      do i=1,nid
-         rdata(plotid(i), specid(i)) = abund(i)
-      enddo
-
-      deallocate(plotid, specid, abund)
-      
-c     output
-      
       open (unit=2, file=outfile, status='new')
 
-      call cep2rdata(rdata, nst, nsp, stnam, spnam)
+      call cep2dgT(plotid, specid, abund, stnam, spnam,
+     .     nid, nst, nsp)
       
       close(2)
 
-      deallocate(rdata, stnam, spnam)
+      deallocate(plotid, specid, abund, stnam, spnam)
 
       end program cepreader
 
@@ -335,11 +321,11 @@ c     Sanitize names so that they can be source()d into R
 c     Write data in sparse matrix triplet form to a temporary file that
 c     can be source()d to R and saved there as a sparseMatrix
 
-      subroutine hill2dgT(idplot, idspec, abund, rownames, colnames,
+      subroutine cep2dgT(idplot, idspec, abund, rownames, colnames,
      .     id, nrow, ncol)
 
       integer :: id, nrow, ncol
-      integer :: idplot(id), ispec(id)
+      integer :: idplot(id), idspec(id)
       real :: abund(id)
       character(len=8) :: rownames(nrow), colnames(ncol)
 
