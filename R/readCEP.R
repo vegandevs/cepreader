@@ -1,5 +1,5 @@
 `readCEP` <-
-    function (file, maxdata = 10000, positive = TRUE)
+    function (file, maxdata = 10000, positive = TRUE, sparseMatrix = FALSE)
 {
     ## launch external binary to write R input data
     cepread <- file.path(path.package("cepreader"),
@@ -17,7 +17,7 @@
     }
     ## source result: will return results in 'out'
     source(outfile)
-    ## sanitize dimname
+    ## remove blanks from dimnames
     cnam <- out$jnames
     cnam <- gsub(" ", "", cnam)
     cnam <- make.names(cnam, unique = TRUE)
@@ -36,6 +36,7 @@
         if (any(rsum <= 0) || any(csum <= 0))
             out <- out[rsum > 0, csum > 0, drop = FALSE]
     }
-    out <- as.data.frame(as.matrix(out))
+    if (!sparseMatrix)
+        out <- as.data.frame(as.matrix(out))
     out
 }

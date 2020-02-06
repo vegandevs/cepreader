@@ -7,14 +7,15 @@
   used by \code{Canoco} software, among others.
 }
 \usage{
-readCEP(file, maxdata=10000, positive=TRUE)
+readCEP(file, maxdata = 10000, positive = TRUE, sparseMatrix = FALSE)
 }
 
 \arguments{
   \item{file}{File name (character variable). }
   \item{maxdata}{Maximum number of non-zero entries. }
   \item{positive}{Read only positive data entries (normal in community data).}
-
+  \item{sparseMatrix}{Return data as a sparse matrix of \CRANpkg{Matrix}
+    package (see \code{\link[Matrix]{sparseMatrix}}).}
 }
 \details{
 
