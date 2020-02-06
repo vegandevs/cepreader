@@ -1,2 +1,6 @@
 ## export function
 export(readCEP)
+## import
+importFrom(Matrix, sparseMatrix)
+importFrom(Matrix, rowSums)
+importFrom(Matrix, colSums)
