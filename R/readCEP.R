@@ -1,5 +1,6 @@
 `readCEP` <-
-    function (file, maxdata = 10000, positive = TRUE, sparseMatrix = FALSE)
+    function (file, maxdata = 10000, positive = TRUE, sparseMatrix = FALSE,
+              ...)
 {
     ## launch external binary to write R input data
     cepread <- file.path(path.package("cepreader"),
@@ -29,7 +30,7 @@
     ## want to have an option of returning a Matrix::sparseMatrix
     ## object.
     out <- sparseMatrix(i = out$i, j = out$j, x = out$x,
-                        dimnames = list(rnam, cnam))
+                        dimnames = list(rnam, cnam), ...)
     if (positive) {
         rsum <- rowSums(out)
         csum <- colSums(out)
