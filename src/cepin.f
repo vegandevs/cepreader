@@ -126,11 +126,7 @@ C     number of I's in 'fmt'.
       end
 
 c     Open CEP format (kind=2).  Zeros are skipped, negative entries
-c     stored. Stop when negative site (row) index found. It is a bit odd
-c     to read open data into condensed format and then transform it back
-c     to open data. This happens because the function was originally (in
-c     1990s!) used to read data into condensed format that I used in my
-c     software. This could be redesigned, but I leave it to others...
+c     stored. Stop when negative site (row) index found.
 
       subroutine cepopen(fmt, nitem, maxdat, nsp, nst, idplot, idspec, 
      X abund, work, id)
@@ -211,8 +207,7 @@ c     All entries are stored in condensed format (except zeros)
       end
 
 c     Free CEP format (kind=1) -- or error!  Get everything but
-c     zeros. We get it in sparse form but later change back to open: see
-c     comment for cepopen()
+c     zeros.
 
       subroutine cepfree(nitem, maxdat, nsp, nst, idplot, idspec, 
      X abund, work, id)
@@ -278,43 +273,6 @@ c     baddies are escape sequences for \ ' "
          ibad = scan(name, baddies)
       enddo
 
-      return
-      end
-
-c     Write opened-up data matrix to a structure that R can read
-
-      subroutine cep2rdata(x, nrow, ncol, rownames, colnames)
-
-      real :: x(nrow, ncol)
-      character(len=8) :: rownames(nrow), colnames(ncol)
-      integer :: nrow, ncol
-
-c     data.frame
-
-      write(2, "('out <- structure(list(')")
-      do j= 1,ncol
-         write(2, "('c(')")
-         write(2, "(99999(g13.7, :, ', '))") (x(i,j), i = 1,nrow)
-         write(2, "(')')")
-         if (j .lt. ncol) write(2, "(',')")
-      enddo
-
-c     Sanitize names so that they can be source()d into R
-
-      do i=1,ncol
-         call sanitname(colnames(i))
-      enddo
-      do i=1,nrow
-         call sanitname(rownames(i))
-      enddo
-
- 101  format(99999("'", a8, "'", :, ", "))
-      write(2, "('), .Names = c(')")
-      write(2, 101) (colnames(i), i=1,ncol)
-      write(2, "('), row.names = c(')")
-      write(2, 101) (rownames(i), i=1,nrow)
-      write(2, '("), class = ''data.frame'')")')
-      
       return
       end
 
