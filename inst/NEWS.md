@@ -1,3 +1,14 @@
+Version 1.2-0
+=============
+
+* Can return the data as a sparse matrix (of **Matrix** package). This
+  can offer considerable saving in disk storage. However, several
+  **R** functions may be unable to handle sparse matrices, but they
+  must be changed to ordinary dense matrices or data frames.
+  Moreover, sparse matrices are often changed to full dense matrices
+  within the analysis.  For instance, a centred or standardized data
+  matrix in ordination is dense.
+
 Version 1.1-3
 =============
 

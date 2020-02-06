@@ -7,14 +7,17 @@
   used by \code{Canoco} software, among others.
 }
 \usage{
-readCEP(file, maxdata=10000, positive=TRUE)
+readCEP(file, maxdata = 10000, positive = TRUE, sparseMatrix = FALSE,
+    ...)
 }
 
 \arguments{
   \item{file}{File name (character variable). }
   \item{maxdata}{Maximum number of non-zero entries. }
   \item{positive}{Read only positive data entries (normal in community data).}
-
+  \item{sparseMatrix}{Return data as a sparse matrix of \CRANpkg{Matrix}
+    package (see \code{\link[Matrix]{sparseMatrix}}).}
+  \item{\dots}{Other arguments passed to \code{\link[Matrix]{sparseMatrix}}.}
 }
 \details{
 
@@ -66,18 +69,30 @@ readCEP(file, maxdata=10000, positive=TRUE)
   should be read in with option \code{positive = FALSE}.
 
 }
+
 \value{
-  Returns a data frame, where columns are species and rows are
+  Returns a data frame (default), where columns are species and rows are
   sites. Column and row names are taken from the CEP file, and changed
-  into unique \R names by \code{\link{make.names}} after stripping the blanks.
+  into unique \R names by \code{\link{make.names}} after stripping the
+  blanks.
+
+  Alternatively the function can return a sparse matrix of
+  \CRANpkg{Matrix} package. This can give considerably saving in disk
+  storage. However, typically the sparse matrix will be expanded to full
+  dense matrix in community analysis. For instance, centred or
+  standardized data matrices are dense. Moreover, some functions may be
+  unable to analyse sparse matrices, but you must cast these to ordinary
+  dense data matrices or data frames before the analysis.
 }
-\references{ 
-  Ter Braak, C.J.F. (1984--): CANOCO -- a FORTRAN program for \emph{cano}nical
-  \emph{c}ommunity \emph{o}rdination by [partial] [detrended] [canonical]
-  correspondence analysis, principal components analysis and redundancy
-  analysis. \emph{TNO Inst. of Applied Computer Sci., Stat. Dept. Wageningen,
-  The Netherlands}. 
+
+\references{
+  Ter Braak, C.J.F. (1984--): CANOCO -- a FORTRAN program for
+  \emph{cano}nical \emph{c}ommunity \emph{o}rdination by [partial]
+  [detrended] [canonical] correspondence analysis, principal components
+  analysis and redundancy analysis. \emph{TNO Inst. of Applied Computer
+  Sci., Stat. Dept. Wageningen, The Netherlands}.
 }
+
 \author{ Jari Oksanen }
 
 \note{
@@ -116,6 +131,8 @@ head(readLines(cepfile), n=10)
 tail(readLines(cepfile), n=10)
 ## as a data frame
 readCEP(cepfile)
+## as a sparse matrix (Matrix package)
+readCEP(cepfile, sparseMatrix = TRUE)
 }
 \keyword{ IO }
 \keyword{ file }

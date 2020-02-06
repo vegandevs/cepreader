@@ -1,7 +1,7 @@
 
-R Under development (unstable) (2019-04-29 r76439) -- "Unsuffered Consequences"
+R version 3.6.1 (2019-07-05) -- "Action of the Toes"
 Copyright (C) 2019 The R Foundation for Statistical Computing
-Platform: x86_64-apple-darwin18.5.0 (64-bit)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -133,6 +133,33 @@ PAS17         0      0      0      0      0      0      0      0      0      0
 X18           0      0      0      0      3      0      2      1      6      0
 X19           0      0      0      3      3      0      2      0      3      0
 X20           0      4      0      0      5      0      0      0      4      3
+> ## as a sparse matrix (Matrix package)
+> readCEP(cepfile, sparseMatrix = TRUE)
+22 x 30 sparse Matrix of class "dgCMatrix"
+   [[ suppressing 30 column names ‘Achmil’, ‘Agrsto’, ‘Airpra’ ... ]]
+                                                                    
+X1       1 . . . . . . . . . 4 . . . . . 7 . 4 2 . . . . . . . . . .
+X2       3 . . 2 . 3 4 . . . 4 . . . . 5 5 . 4 7 . . . . . . 5 . . .
+X3       . 4 . 7 . 2 . . . . 4 . . . . 2 6 . 5 6 . . . . . . 2 . 2 .
+X4       . 8 . 2 . 2 3 . 2 . 4 . . . . 2 5 . 4 5 . . . 5 . . 1 . 2 .
+X5       2 . . . 4 2 2 . . . 4 . . . . 3 2 5 2 6 . . 5 . . 2 2 . 2 .
+X6       2 . . . 3 . . . . . . . . . . 3 6 5 3 4 . . 6 . . 5 5 . 6 .
+X7       2 . . . 2 . 2 . . . . . . . 2 3 6 5 4 5 . . 3 . . 2 2 . 2 .
+X8       . 4 . 5 . . . . . 4 . . . 4 . 3 4 . 4 4 . 2 . 2 . . 2 . 2 .
+X9       . 3 . 3 . . . . . . 6 . . 4 4 2 2 . 4 5 . . 2 2 . . 3 . 2 .
+X10      4 . . . 4 2 4 . . . . . . . . 3 6 3 4 4 . . . . . . 6 1 2 .
+X11      . . . . . . . . . . . . 2 . . 5 7 3 4 . . . . 2 . . 3 2 4 .
+X12      . 4 . 8 . . . . . . . . . . 4 2 . . . 4 . . 2 4 . . 3 . 4 .
+X13      . 5 . 5 . . . 1 . . . . . . 3 2 . . 2 9 . 2 . 2 . . 2 . . .
+X14      . 4 . . . . . . . 4 . . . . . 2 . . . . 2 2 . . . . 6 . . 4
+X15      . 4 . . . . . . . 5 . . . 3 . 2 . . . . 2 2 . . . . 1 . 4 .
+X16      . 7 . 4 . . . . . 8 . . . 3 . . . . . 2 . 2 . . . . . . 4 3
+X17      2 . 2 . 4 . . . . . . . 2 . . 2 . 2 1 . . . . . . . . . . .
+EXTRASAM . . . . . 5 . . . . . . . . . . . . 4 . . . 3 . . . . . . .
+PAS17    2 . 2 . 4 . . . . . . . 2 . . 2 . 2 1 . . . . . . . . . . .
+X18      . . . . . 2 . . . . . . . . . 5 2 3 3 . . . . . 3 . 2 1 6 .
+X19      . . 3 . 4 . . . . . . 2 5 . . 6 . . . . . . . 3 3 . 2 . 3 .
+X20      . 5 . . . . . . . 4 . . . 4 . 2 . . . . . 4 . . 5 . . . 4 3
 > 
 > 
 > 
@@ -141,7 +168,7 @@ X20           0      4      0      0      5      0      0      0      4      3
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.122 0.012 0.144 0.003 0.003 
+Time elapsed:  1.168 0.098 1.301 0.006 0.007 
 > grDevices::dev.off()
 null device 
           1 

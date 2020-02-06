@@ -16,7 +16,7 @@ C     Licence: MIT
       character(len=8) :: arg3
       integer :: kind, nitem, maxdat, nsp, nst
       integer, allocatable :: plotid(:), specid(:), item(:)
-      real, allocatable :: abund(:), work(:), rdata(:,:)
+      real, allocatable :: abund(:), work(:)
 
 c     getarg is GNU extension
       
@@ -61,30 +61,16 @@ c     get names
       call cepnames(spnam, nsp, "spec")
       call cepnames(stnam, nst, "site")
 
-c     rectangular output file for R
+c     Sparse triplet format for R Matrix::sparseMatrix
 
-      allocate(rdata(nst, nsp))
-      do j=1,nsp
-         do i=1,nst
-            rdata(i,j) = 0.0
-         enddo
-      enddo
-
-      do i=1,nid
-         rdata(plotid(i), specid(i)) = abund(i)
-      enddo
-
-      deallocate(plotid, specid, abund)
-      
-c     output
-      
       open (unit=2, file=outfile, status='new')
 
-      call cep2rdata(rdata, nst, nsp, stnam, spnam)
+      call cep2dgT(plotid, specid, abund, stnam, spnam,
+     .     nid, nst, nsp)
       
       close(2)
 
-      deallocate(rdata, stnam, spnam)
+      deallocate(plotid, specid, abund, stnam, spnam)
 
       end program cepreader
 
@@ -140,11 +126,7 @@ C     number of I's in 'fmt'.
       end
 
 c     Open CEP format (kind=2).  Zeros are skipped, negative entries
-c     stored. Stop when negative site (row) index found. It is a bit odd
-c     to read open data into condensed format and then transform it back
-c     to open data. This happens because the function was originally (in
-c     1990s!) used to read data into condensed format that I used in my
-c     software. This could be redesigned, but I leave it to others...
+c     stored. Stop when negative site (row) index found.
 
       subroutine cepopen(fmt, nitem, maxdat, nsp, nst, idplot, idspec, 
      X abund, work, id)
@@ -225,8 +207,7 @@ c     All entries are stored in condensed format (except zeros)
       end
 
 c     Free CEP format (kind=1) -- or error!  Get everything but
-c     zeros. We get it in sparse form but later change back to open: see
-c     comment for cepopen()
+c     zeros.
 
       subroutine cepfree(nitem, maxdat, nsp, nst, idplot, idspec, 
      X abund, work, id)
@@ -295,25 +276,18 @@ c     baddies are escape sequences for \ ' "
       return
       end
 
-c     Write opened-up data matrix to a structure that R can read
+c     Write data in sparse matrix triplet form to a temporary file that
+c     can be source()d to R and saved there as a sparseMatrix
 
-      subroutine cep2rdata(x, nrow, ncol, rownames, colnames)
+      subroutine cep2dgT(idplot, idspec, abund, rownames, colnames,
+     .     id, nrow, ncol)
 
-      real :: x(nrow, ncol)
+      integer :: id, nrow, ncol
+      integer :: idplot(id), idspec(id)
+      real :: abund(id)
       character(len=8) :: rownames(nrow), colnames(ncol)
-      integer :: nrow, ncol
 
-c     data.frame
-
-      write(2, "('out <- structure(list(')")
-      do j= 1,ncol
-         write(2, "('c(')")
-         write(2, "(99999(g13.7, :, ', '))") (x(i,j), i = 1,nrow)
-         write(2, "(')')")
-         if (j .lt. ncol) write(2, "(',')")
-      enddo
-
-c     Sanitize names so that they can be source()d into R
+c     Sanitize names so that they can source()d into R
 
       do i=1,ncol
          call sanitname(colnames(i))
@@ -322,12 +296,30 @@ c     Sanitize names so that they can be source()d into R
          call sanitname(rownames(i))
       enddo
 
- 101  format(99999("'", a8, "'", :, ", "))
-      write(2, "('), .Names = c(')")
-      write(2, 101) (colnames(i), i=1,ncol)
-      write(2, "('), row.names = c(')")
-      write(2, 101) (rownames(i), i=1,nrow)
-      write(2, '("), class = ''data.frame'')")')
-      
+c     Write row and column indices and corresponding abundance data and
+c     dimnames in a list that can be used to build a
+c     Matrix::sparseMatrix in R
+
+ 101  format(99999(i6, :, ","))
+ 102  format(99999(g13.7, :, ","))
+ 103  format(99999("'", a8, "'", :, ", "))
+
+      write(2, "('out <- list(')")
+      write(2, "('i = c(')")
+      write(2, 101) (idplot(i), i = 1,id)
+      write(2, "('),')")
+      write(2, "('j = c(')")
+      write(2, 101) (idspec(i), i = 1,id)
+      write(2, "('),')")
+      write(2, "('x = c(')")
+      write(2, 102) (abund(i), i = 1,id)
+      write(2, "('),')")
+      write(2, "('inames = c(')")
+      write(2, 103) (rownames(i), i=1,nrow)
+      write(2, "('),')")
+      write(2, "('jnames = c(')")
+      write(2, 103) (colnames(i), i=1,ncol)
+      write(2, "('))')")
+
       return
       end

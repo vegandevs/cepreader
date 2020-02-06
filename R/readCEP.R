@@ -1,5 +1,6 @@
 `readCEP` <-
-    function (file, maxdata = 10000, positive = TRUE)
+    function (file, maxdata = 10000, positive = TRUE, sparseMatrix = FALSE,
+              ...)
 {
     ## launch external binary to write R input data
     cepread <- file.path(path.package("cepreader"),
@@ -17,20 +18,26 @@
     }
     ## source result: will return results in 'out'
     source(outfile)
-    ## sanitize dimname
-    cnam <- names(out)
+    ## remove blanks from dimnames
+    cnam <- out$jnames
     cnam <- gsub(" ", "", cnam)
     cnam <- make.names(cnam, unique = TRUE)
-    names(out) <- cnam
-    rnam <- rownames(out)
+    rnam <- out$inames
     rnam <- gsub(" ", "", rnam)
     rnam <- make.names(rnam, unique = TRUE)
-    rownames(out) <- rnam
+    ## Make a sparse matrix. It is trivial to make a dense matrix
+    ## manually (and we did so previously in Fortran code), but we
+    ## want to have an option of returning a Matrix::sparseMatrix
+    ## object.
+    out <- sparseMatrix(i = out$i, j = out$j, x = out$x,
+                        dimnames = list(rnam, cnam), ...)
     if (positive) {
         rsum <- rowSums(out)
         csum <- colSums(out)
         if (any(rsum <= 0) || any(csum <= 0))
             out <- out[rsum > 0, csum > 0, drop = FALSE]
     }
+    if (!sparseMatrix)
+        out <- as.data.frame(as.matrix(out))
     out
 }
