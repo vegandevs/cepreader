@@ -117,6 +117,8 @@ head(readLines(cepfile), n=10)
 tail(readLines(cepfile), n=10)
 ## as a data frame
 readCEP(cepfile)
+## as a sparse matrix (Matrix package)
+readCEP(cepfile, sparseMatrix = TRUE)
 }
 \keyword{ IO }
 \keyword{ file }
