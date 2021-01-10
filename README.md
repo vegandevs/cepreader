@@ -6,7 +6,7 @@ CANOCO software with small modifications. Many legacy data sets are
 still written in these formats. The **cepreader** package provides
 function `readCEP()` to read these data files into **R** as
 `data.frame` or a sparse **Matrix**. The function does not handle all
-possible CEP formats, but it handles ``transposed condensed'' format
+possible CEP formats, but it handles transposed condensedformat
 which was the most popular one plus some other popular formats.
 
 ## Why a Package?
