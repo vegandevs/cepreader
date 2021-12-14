@@ -1,4 +1,4 @@
-FC:=`"${R_HOME}/bin/R" --arch i386 CMD config FC`
-FFLAGS:=`"${R_HOME}/bin/R" --arch i386 CMD config FFLAGS`
+FC:=`"${R_HOME}/bin/R" --arch x64 CMD config FC`
+FFLAGS:=`"${R_HOME}/bin/R" --arch x64 CMD config FFLAGS`
 cepread: cepin.f
 	$(FC) $(FFLAGS) cepin.f -o cepread
