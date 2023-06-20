@@ -24,6 +24,8 @@ but this package is more versatile and robust and can handle a wider
 array of CEP formats.
 
 #### Released version
+[![R build
+status](https://github.com/vegandevs/cepreader/workflows/R-CMD-check/badge.svg)](https://github.com/vegandevs/cepreader/actions)
 [![CRAN version](https://www.r-pkg.org/badges/version/cepreader)](https://cran.rstudio.com/web/packages/cepreader/index.html) [![](https://cranlogs.r-pkg.org/badges/grand-total/cepreader)](https://cran.rstudio.com/web/packages/cepreader/index.html)
 
 #### Build status
