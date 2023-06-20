@@ -18,11 +18,9 @@ C     Licence: MIT
       integer, allocatable :: plotid(:), specid(:), item(:)
       real, allocatable :: abund(:), work(:)
 
-c     getarg is GNU extension
-      
-      call getarg(1, cepfile)
-      call getarg(2, outfile)
-      call getarg(3, arg3)
+      call get_command_argument(1, cepfile)
+      call get_command_argument(2, outfile)
+      call get_command_argument(3, arg3)
       read(arg3, '(i8)') maxdat
 
 c     open CEP file
@@ -48,9 +46,8 @@ c     read data
       case (3)
          call cepcond(fmt, nitem, maxdat, nsp, nst, plotid, specid,
      x        abund, work, item, nid)
-c     exit is GNU extension
       case default
-         call exit(2)
+         stop 2
       end select
 
       deallocate(item, work)
@@ -152,7 +149,7 @@ c     stored. Stop when negative site (row) index found.
          if (work(j) .ne. 0) then
             id = id+1
             if (id .gt. maxdat) then
-               call exit(1)
+               stop 1
             endif
             idplot(id) = ii
             idspec(id) = j
@@ -192,7 +189,7 @@ c     All entries are stored in condensed format (except zeros)
       do j = 1,nitem
          if (item(j) .gt. 0 .and. work(j) .ne. 0.0) then
             id = id+1
-            if (id .gt. maxdat) call exit(1)
+            if (id .gt. maxdat) stop 1
             idplot(id) = ii
             if (item(j) .gt. nsp) then
                nsp = item(j)
@@ -229,7 +226,7 @@ c     zeros.
             if(work(j)  .ne. 0) then
                id=id+1
                if (id .gt. maxdat) then
-                  call exit(1)
+                  stop 1
                endif
                abund(id) = work(j)
                idspec(id) = j
