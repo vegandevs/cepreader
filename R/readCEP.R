@@ -8,7 +8,8 @@
     cepfile <- normalizePath(file, mustWork = TRUE)
     outfile <- tempfile()
     on.exit(unlink(outfile))
-    retval <- system2(cepread, args = c(cepfile, outfile, maxdata))
+    retval <- system2(cepread, args = c(cepfile, outfile, maxdata),
+                      stderr = NULL)
     if (retval) {
         switch(as.character(retval),
                "1" = stop("too many non-zero entries: increase 'maxdata' from ",

@@ -1,3 +1,14 @@
+Version 1.2-2
+=============
+
+* Remove GNU extensions from Fortran. These trigger error with new **R**,
+  and the package must be upgraded with **R** upgrade.
+
+Version 1.2-1
+=============
+
+* Build system was upgraded for Windows tools.
+
 Version 1.2-0
 =============
 
