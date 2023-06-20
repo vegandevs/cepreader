@@ -27,7 +27,3 @@ array of CEP formats.
 [![R build
 status](https://github.com/vegandevs/cepreader/workflows/R-CMD-check/badge.svg)](https://github.com/vegandevs/cepreader/actions)
 [![CRAN version](https://www.r-pkg.org/badges/version/cepreader)](https://cran.rstudio.com/web/packages/cepreader/index.html) [![](https://cranlogs.r-pkg.org/badges/grand-total/cepreader)](https://cran.rstudio.com/web/packages/cepreader/index.html)
-
-#### Build status
-[![Build Status](https://travis-ci.org/vegandevs/cepreader.svg?branch=master)](https://travis-ci.org/vegandevs/cepreader)
-[![Build status](https://ci.appveyor.com/api/projects/status/ydo7gbvuckc916kq/branch/master?svg=true)](https://ci.appveyor.com/project/jarioksa/cepreader/branch/master)
