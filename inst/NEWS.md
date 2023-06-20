@@ -1,13 +1,14 @@
 Version 1.2-2
 =============
 
-* Remove GNU extensions from Fortran. These trigger error with new **R**,
-  and the package must be upgraded with **R** upgrade.
+* Maintenance release to adapt to new settings in **R** build tools
+  for Fortran. Github 
+  [issue #7](https://github.com/vegandevs/cepreader/issues/7)
 
 Version 1.2-1
 =============
 
-* Build system was upgraded for Windows tools.
+* Maintenance release for new Windows build tools.
 
 Version 1.2-0
 =============
