@@ -8,7 +8,8 @@ Version 1.2-2
 Version 1.2-1
 =============
 
-* Maintenance release for new Windows build tools.
+* Maintenance release for new Windows build tools. Fortran binary
+  is now 64-bit in Windows.
 
 Version 1.2-0
 =============
