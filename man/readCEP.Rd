@@ -8,7 +8,7 @@
 }
 \usage{
 readCEP(file, maxdata = 10000, positive = TRUE, sparseMatrix = FALSE,
-    ...)
+    long = FALSE, ...)
 }
 
 \arguments{
@@ -16,7 +16,12 @@ readCEP(file, maxdata = 10000, positive = TRUE, sparseMatrix = FALSE,
   \item{maxdata}{Maximum number of non-zero entries. }
   \item{positive}{Read only positive data entries (normal in community data).}
   \item{sparseMatrix}{Return data as a sparse matrix of \CRANpkg{Matrix}
-    package (see \code{\link[Matrix]{sparseMatrix}}).}
+    package (see \code{\link[Matrix]{sparseMatrix}}). This option cannot
+    be used together with \code{long = TRUE}.}
+  \item{long}{Return data in \dQuote{long} format as triplets of row
+    name (\code{row}), column name (\code{col}) and data value
+    (\code{val}). This option cannot be used together with
+    \code{sparseMatrix = TRUE}.}
   \item{\dots}{Other arguments passed to \code{\link[Matrix]{sparseMatrix}}.}
 }
 \details{
@@ -62,19 +67,23 @@ readCEP(file, maxdata = 10000, positive = TRUE, sparseMatrix = FALSE,
      \item Species and site names, given in Fortran format
         \code{(10A8)}: Ten names per line, eight columns for each.  }
 
-  With option \code{positive = TRUE} the function removes all lines
-  and columns with zero or negative marginal sums.  In community data
-  with only positive entries, this removes empty sites and species.
-  If data entries can be negative, this ruins data, and such data sets
-  should be read in with option \code{positive = FALSE}.
+  With option \code{positive = TRUE} the function removes all lines and
+  columns with zero or negative marginal sums in matrix like objects, or
+  rows with non-positive value (\code{val}) in long format.  In
+  community data with only positive entries, this removes empty sites
+  and species.  If data entries can be negative, this ruins data, and
+  such data sets should be read in with option \code{positive = FALSE}.
 
 }
 
 \value{
+  
   Returns a data frame (default), where columns are species and rows are
-  sites. Column and row names are taken from the CEP file, and changed
-  into unique \R names by \code{\link{make.names}} after stripping the
-  blanks.
+  sites, or a similar data frame in long format where each entry is a
+  triplet of row name, column name and data value (column names
+  \code{row}, \code{col}, and \code{val}). Column and row names are
+  taken from the CEP file, and changed into unique \R names by
+  \code{\link{make.names}} after stripping the blanks.
 
   Alternatively the function can return a sparse matrix of
   \CRANpkg{Matrix} package. This can give considerably saving in disk
@@ -108,7 +117,7 @@ readCEP(file, maxdata = 10000, positive = TRUE, sparseMatrix = FALSE,
   platform. For instance, if you transfer files from Windows to Linux,
   you should change the files to \code{unix} format, or your session may
   crash when Fortran program tries to read the invisible characters that
-  Windows uses at the end of each line.
+  Windows uses as line terminators.
 
   This function was included in \pkg{vegan} up to version 2.4-5. It
   was moved to a package of its own because compiled functions using
@@ -131,6 +140,8 @@ head(readLines(cepfile), n=10)
 tail(readLines(cepfile), n=10)
 ## as a data frame
 readCEP(cepfile)
+## as a data frame in "long" format
+head(readCEP(cepfile, long = TRUE))
 ## as a sparse matrix (Matrix package)
 readCEP(cepfile, sparseMatrix = TRUE)
 }
