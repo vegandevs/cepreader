@@ -20,8 +20,8 @@ readCEP(file, maxdata = 10000, positive = TRUE, sparseMatrix = FALSE,
     be used together with \code{long = TRUE}.}
   \item{long}{Return data in \dQuote{long} format as triplets of row
     name (\code{row}), column name (\code{col}) and data value
-    (\code{val}). This option cannot be used together with
-    \code{sparseMatrix = TRUE}.}
+    (\code{val}). Only rows with positive value are included as default.
+    This option cannot be used together with \code{sparseMatrix = TRUE}.}
   \item{\dots}{Other arguments passed to \code{\link[Matrix]{sparseMatrix}}.}
 }
 \details{
