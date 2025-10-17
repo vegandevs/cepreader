@@ -1,3 +1,10 @@
+Version 1.3-0
+=============
+
+* `readCEP` can return data in "long" format as triplets of row names
+  (typically sites), column names (typically species) and data
+  values. As default, rows with zero or negative values are omitted.
+
 Version 1.2-2
 =============
 
