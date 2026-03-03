@@ -5,6 +5,9 @@ Version 1.3-0
   (typically sites), column names (typically species) and data
   values. As default, rows with zero or negative values are omitted.
 
+* Reports used Fortran compiler (_e.g._, in `00install.out`) per wish
+  of [issue #8](https://github.com/vegandevs/cepreader/issues/8).
+
 Version 1.2-2
 =============
 
