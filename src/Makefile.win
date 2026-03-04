@@ -1,5 +1,3 @@
-FC:=`"${R_HOME}/bin/R" --arch x64 CMD config FC`
-FFLAGS:=`"${R_HOME}/bin/R" --arch x64 CMD config FFLAGS`
 cepread: cepin.f
 	@echo "using Fortran compiler: '`$(FC) --version | head -1`'" || true
 	$(FC) $(FFLAGS) cepin.f -o cepread
