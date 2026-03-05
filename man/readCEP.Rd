@@ -123,8 +123,8 @@ readCEP(file, maxdata = 10000, positive = TRUE, sparseMatrix = FALSE,
   was moved to a package of its own because compiled functions using
   Fortran I/O can interfere with compiled code written in other
   languages. This can disturb \pkg{vegan}, other loaded packages and
-  packages that depend on \pkg{vegan}. Current versions of \pkg{vegan}
-  have function \code{\link[vegan]{read.cep}} that uses \R{} code to
+  packages that depend on \pkg{vegan}. CRAN package \pkg{vegan}
+  has function \code{read.cep} that uses \R{} code to
   read in \dQuote{condensed} data. However, the \R{} code is not as
   robust as the Fortran code in this package, and it can fail to read
   or read correctly several legacy files, and does not read
