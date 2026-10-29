@@ -41,6 +41,32 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
+      - name: Diagnose macOS SDK and Fortran toolchain
+        if: runner.os == 'macOS'
+        continue-on-error: true
+        shell: bash
+        run: |
+          echo "::group::Developer tools and SDK"
+          xcode-select -p
+          xcrun --find ld
+          xcrun --sdk macosx --show-sdk-path
+          ls -ld /opt/gfortran/SDK
+          readlink /opt/gfortran/SDK || true
+          echo "::endgroup::"
+          echo "::group::Compiler and linker configuration"
+          /opt/gfortran/bin/gfortran -v
+          /opt/gfortran/bin/gfortran -print-prog-name=ld
+          command -v ld
+          xcrun ld -version_details || true
+          /usr/bin/ld -version_details || true
+          R CMD config FC
+          R CMD config FFLAGS
+          R CMD config LDFLAGS
+          echo "::endgroup::"
+          echo "::group::Fortran compile and link command plan"
+          /opt/gfortran/bin/gfortran -### -arch arm64 src/cepin.f -o "$RUNNER_TEMP/cepread-diagnostic"
+          echo "::endgroup::"
+
       - uses: r-lib/actions/setup-tinytex@v2
       - run: tlmgr --version
       - run: tlmgr update --self
