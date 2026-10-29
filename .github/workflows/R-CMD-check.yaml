@@ -41,6 +41,16 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
+      - name: Align macOS Fortran SDK
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          sdk="$(xcrun --sdk macosx --show-sdk-path)"
+          test -d "$sdk"
+          test -L /opt/gfortran/SDK
+          sudo ln -sfn "$sdk" /opt/gfortran/SDK
+          echo "SDKROOT=$sdk" >> "$GITHUB_ENV"
+
       - name: Diagnose macOS SDK and Fortran toolchain
         if: runner.os == 'macOS'
         continue-on-error: true
